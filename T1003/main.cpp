@@ -2,16 +2,17 @@
 在计算最短路的时候，要同时计算最短路的数目和能收集的最多人手
 在计算时采用这样的策略
 1. 更新最短路时，如果发现新的最短路，则最短路条数重新记为1
-2. 如果最短路距离和当前最短路距离相同，最短路条数加1，并且比较能收集的最多的救援人数
+2. 如果最短路距离和当前最短路距离相同，最短路条数加1，并且比较能收集的最多的救援人数和这条路上能收集的
+救援人数
 */
 #include<iostream>
 #include<algorithm>
 using namespace std;
-const int Max =1e5;
-int maxrescueman[600];   //最多救援人数
+const int Max =1e6;
+int maxrescueman[600];   //各个城市的最多救援人数
 int rescue[600];    //各个城市的救援人数
 int Distance[600]; //最短路的距离
-int path[600];     //救援路线
+int path[600];     //救援路线的数目
 int vis[600];     //是否被选择
 int edge[600][600];  // 距离矩阵
 int main()
@@ -76,7 +77,7 @@ int main()
         {
             if(!vis[j])
             {
-                if(!Distance[j]&&edge[j][k]>0)
+                if(!Distance[j]&&edge[j][k]>0)                  //新的联通的节点
                 {
                     Distance[j]=Distance[k]+edge[j][k];
                     path[j]=1;
@@ -84,14 +85,14 @@ int main()
                 }
                 else if(Distance[j]>0&&edge[j][k]&&edge[j][k]+Distance[k]<Distance[j])
                 {
-                    Distance[j]=edge[j][k]+Distance[k];
+                    Distance[j]=edge[j][k]+Distance[k];            //发现新的路线
                     path[j]=1;
                     maxrescueman[j]=maxrescueman[k]+rescue[j];
 
                 }
                 else if(Distance[j]>0&&edge[j][k]&&edge[j][k]+Distance[k]==Distance[j])
                 {
-                    path[j]+=1;
+                    path[j]+=1;                                     //其他新的路线被发现
                     if(maxrescueman[k]+rescue[j]>maxrescueman[j])
                         maxrescueman[j]=maxrescueman[k]+rescue[j];
                 }
@@ -99,5 +100,6 @@ int main()
         }
     }
     printf("%d %d\n",path[c2],maxrescueman[c2]);
+
     return 0;
 }
