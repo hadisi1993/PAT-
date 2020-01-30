@@ -4,6 +4,9 @@
 1. 更新最短路时，如果发现新的最短路，则最短路条数重新记为1
 2. 如果最短路距离和当前最短路距离相同，最短路条数加1，并且比较能收集的最多的救援人数和这条路上能收集的
 救援人数
+
+3. 这道题前面一直做错的一个很重要的原因是，没有考虑到，更新路径时，新增加的路径数目不是1条，而是
+前面一个节点的路径数。还有一个坑就是，要考虑出发节点就是到达节点的情况。
 */
 #include<iostream>
 #include<algorithm>
@@ -19,6 +22,7 @@ int main()
 {
     int n,m,c1,c2;
     scanf("%d %d %d %d",&n,&m,&c1,&c2);
+    path[c1]=1;       //到自己的点
     for(int i=0;i<n;i++)
     {
         scanf("%d",&rescue[i]);
@@ -58,12 +62,9 @@ int main()
                 if(Distance[j]!=0&&Distance[j]<minDistance)
                 {
                     minDistance = Distance[j];
-                 //   printf("min:%d\n",minDistance);
                     k = j;
-                //    printf("k:%d\n",k);
                 }
             }
-        //    printf("\n");
         }
 //        printf("第%d次选择:%d\n",i,k);
 //        printf("更新后节点信息\n");
@@ -80,19 +81,18 @@ int main()
                 if(!Distance[j]&&edge[j][k]>0)                  //新的联通的节点
                 {
                     Distance[j]=Distance[k]+edge[j][k];
-                    path[j]=1;
+                    path[j]=path[k];
                     maxrescueman[j]=maxrescueman[k]+rescue[j];
                 }
                 else if(Distance[j]>0&&edge[j][k]&&edge[j][k]+Distance[k]<Distance[j])
                 {
                     Distance[j]=edge[j][k]+Distance[k];            //发现新的路线
-                    path[j]=1;
+                    path[j]=path[k];
                     maxrescueman[j]=maxrescueman[k]+rescue[j];
-
                 }
                 else if(Distance[j]>0&&edge[j][k]&&edge[j][k]+Distance[k]==Distance[j])
                 {
-                    path[j]+=1;                                     //其他新的路线被发现
+                    path[j]+=path[k];                                     //其他新的路线被发现
                     if(maxrescueman[k]+rescue[j]>maxrescueman[j])
                         maxrescueman[j]=maxrescueman[k]+rescue[j];
                 }
@@ -100,6 +100,5 @@ int main()
         }
     }
     printf("%d %d\n",path[c2],maxrescueman[c2]);
-
     return 0;
 }
