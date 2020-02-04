@@ -83,6 +83,7 @@ int main()
         {
             mu[r[i].name]= q[numc++];
             flagname = r[i].name;
+            on = 0;
         }
         if(r[i].status==1)
             on = r[i].Time;
@@ -102,16 +103,19 @@ int main()
     {
         float totalmoney =0.0;
         float money = 0.0;
-        cout<<it->first<<" "<<month<<endl;
-        while(!it->second.empty())
+        if(it->second.size()>0)
         {
-            money = calmoney(it->second.top().first,it->second.top().second);  // 计算费用
-            print(it->second.top().first,it->second.top().second);  // 打印输出
-            cout<<it->second.top().second-it->second.top().first<<" "<<"$"<<setiosflags(ios::fixed)<<setprecision(2)<<money<<endl;
-            totalmoney +=money;
-            it->second.pop();
+             cout<<it->first<<" "<<month<<endl;
+            while(!it->second.empty())
+            {
+                money = calmoney(it->second.top().first,it->second.top().second);  // 计算费用
+                print(it->second.top().first,it->second.top().second);  // 打印输出
+                cout<<it->second.top().second-it->second.top().first<<" "<<"$"<<setiosflags(ios::fixed)<<setprecision(2)<<money<<endl;
+                totalmoney +=money;
+                it->second.pop();
+            }
+            cout<<"Total amount: $"<<setiosflags(ios::fixed)<<setprecision(2)<<totalmoney<<endl;
         }
-        cout<<"Total amount: $"<<setiosflags(ios::fixed)<<setprecision(2)<<totalmoney<<endl;
     }
     return 0;
 }

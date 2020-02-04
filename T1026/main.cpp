@@ -17,7 +17,7 @@
 */
 using namespace std;
 int cutime =0; // 当前时间
-struct baller*
+struct baller
 {
     int atime; // 到达时间
     int ptime; // 运动时间
@@ -26,9 +26,9 @@ struct baller*
     int stime; // 开始处理的时间
     bool operator <(const baller*&b)const
     {
-        return b->atime<time;
+        return b->atime<atime;
     }
-}b[10005];
+};
 struct table
 {
     int remain;
@@ -40,11 +40,11 @@ struct table
         vip=0;
     }
 }Table[200];
-int waittime[10005];
-int str2time(char*s)
+int str2time(char*str)
 {
     int h,m,s;
-    sscanf(s,"%d:%d:%d",&h,&m,&s);
+    sscanf(str,"%d:%d:%d",&h,&m,&s);
+    printf("1\n");
     return 3600*h+60*m+s;
 }
 void print(int t1,int t2)  // 时间戳转时间
@@ -56,27 +56,31 @@ void print(int t1,int t2)  // 时间戳转时间
     printf("%02d:%02d:%02d ",h,m,s);
     h = t2/3600;
     m = (t2-3600*h)/60;
-    s = t12%60;
+    s = t2%60;
     printf("%02d:%02d:%02d %d\n",h,m,s,round((t2-t1)/60));
 }
 struct cmp{
     bool operator ()(baller*x,baller*y)
     {
-        return x->atime<y.time;
+        return x->atime<y->atime;
     }
 };
 priority_queue<baller*,vector<baller*>,cmp>Q;  // VIP用户
+struct baller**b = new baller*[10005];
 int main()
 {
     char str[20];
     int t,v; // 处理时间和是不是vip
     int n;
     scanf("%d",&n);
+    printf("%d\n",b[0]->atime);
     for(int i=0;i<n;i++)
     {
         scanf("%s %d %d",str,&t,&v);
-        b[i]->atime = cal(str);
-        b[i]->ptime = cal(t);
+       // printf("%s %d %d",str,t,v);
+        b[i]->atime = str2time(str);
+        b[i]->ptime = t*60;
+       // printf("2\n");
         b[i]->vip = v;
         if(v)
         {
@@ -94,7 +98,7 @@ int main()
     }
     cutime = 8*3600;
     int ab = 0;  // 服务完了的人
-    while(Cutime<17*3600)
+    while(cutime<17*3600)
     {
         for(int i=0;i<cnt;i++)
         {
@@ -103,7 +107,7 @@ int main()
                  if(Table[i].vip&&Q.size()>0)    //这张桌子是vip桌,且有vip客户
                 {
                     baller*tmp = Q.top();
-                    if(tmp->atime<Cutime)
+                    if(tmp->atime<cutime)
                     {
                         Table[i].remain = tmp->ptime;
                         Table[i].sev +=1;
@@ -114,11 +118,11 @@ int main()
                     {
                         while(b[ab]->flag)   // 已经处理过的vip
                             ab++;
-                        if(b[ab]->atime<Cutime)  // 如果当前时间大于等待时间
+                        if(b[ab]->atime<cutime)  // 如果当前时间大于等待时间
                         {
                             Table[i].remain = b[ab]->ptime;
                             Table[i].sev+=1;
-                            b[ab]->wtime =Cutime;
+                            b[ab]->stime =cutime;
                             ab++;
                         }
 
@@ -128,22 +132,22 @@ int main()
                 {
                     while(b[ab]->flag)   // 已经处理过的vip
                         ab++;
-                    if(b[ab]->atime<Cutime)  // 如果当前时间大于等待时间
+                    if(b[ab]->atime<cutime)  // 如果当前时间大于等待时间
                     {
                         Table[i].remain = b[ab]->ptime;
-                        b[ab]->wtime =Cutime;
+                        b[ab]->stime =cutime;
                         ab++;
                     }
                 }
             }
 
         }
-        Cutime++;
+        cutime++;
     }
     for(int i=0;i<n;i++)
     {
-        if(b[i].stime)
-            printf("%02d:%02d:%02d %02d:%02d:%02d %d",,,,,);
+        if(b[i]->stime)
+            print(b[i]->atime,b[i]->stime);
     }
     for(int i=0;i<cnt;i++)
     {

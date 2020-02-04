@@ -3,12 +3,14 @@
 #include<vector>
 #include<map>
 #include<algorithm>
+#include<iomanip>
 using namespace std;
 /*这道题我打算用multimap解决，可以发现，书籍里面所有的属性都和digit是多对一的关系
 要解决的问题
 1.关键字是分隔开的字符串，要写一个函数把字符分开
 2.输入查询语句的时候要注意,处理字符串
 第一次交没有全对，我觉得可能是因为我只用了一个multimap的容器
+再次提交后发现还是不对,再次检查后发现是输出格式出现了错误
 */
 void sock(string s,vector<string>&v,string c)           //字符串分割函数
 {
@@ -24,7 +26,7 @@ void sock(string s,vector<string>&v,string c)           //字符串分割函数
     }
     if(pos2!=s.length())
         v.push_back(s.substr(pos2));
-   cout<<"the number of keywords:"<<v.size()<<endl;
+  // cout<<"the number of keywords:"<<v.size()<<endl;
 }
 int main()
 {
@@ -86,7 +88,7 @@ int main()
             v.push_back(mu->second);
         sort(v.begin(),v.end());       //排序
         for(int j=0;j<m[order-1].count(ques);j++)
-            cout<<v[j]<<endl;
+            cout<<setw(7)<<setfill('0')<<v[j]<<endl;
     }
     return 0;
 }
