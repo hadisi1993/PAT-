@@ -83,7 +83,7 @@ int main()
         {
             mu[r[i].name]= q[numc++];
             flagname = r[i].name;
-            on = 0;
+            on = 0;          //换了人重新开始记
         }
         if(r[i].status==1)
             on = r[i].Time;
