@@ -1,6 +1,6 @@
-#include <iostream>
+//这道题目其实没什么可讲的，因为它接人是一个一个接的，不存在时间最优化的问题
+#include<iostream>
 using namespace std;
-
 int main()
 {
     int n;

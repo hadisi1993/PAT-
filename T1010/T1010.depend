@@ -1,7 +1,7 @@
 # depslib dependency file v1.0
-1580443371 source:d:\c语言代码保存\pat甲级\t1010\main.cpp
+1580979404 source:d:\c语言代码保存\pat甲级\t1010\main.cpp
 	<iostream>
 	<cmath>
-	<string.h>
+	<string>
 	<cctype>
 

@@ -4,6 +4,7 @@
 #include<algorithm>
 #include<cstdio>
 using namespace std;
+//思路，现将数字转化为字符串，然后插入逗号
 int main()
 {
     int a,b;
@@ -19,7 +20,7 @@ int main()
     {
         if(isdigit(s[i]))
         {
-            s.insert(i,",");
+            s.insert(i,",");   //添加逗号
             len+=1;
             i+=1;
         }

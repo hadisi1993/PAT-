@@ -2,7 +2,6 @@
 #include<cstring>
 #include<algorithm>
 using namespace std;
-
 int main()
 {
     string num[]={"zero","one","two","three","four","five","six","seven","eight","nine"};

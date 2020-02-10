@@ -15,7 +15,6 @@ int main()
     for(int i=0;i<n1;i++)
     {
         scanf("%d %f",&exp,&cof);
-     //   printf("%d %.1f\n",exp,cof);
         poly1[exp]=cof;
         if(exp>maxterm1)
             maxterm1 = exp;
@@ -25,18 +24,12 @@ int main()
     {
         scanf("%d %f",&exp,&cof);
         poly2[exp]=cof;
-      //  printf("%d %.1f\n",exp,cof);
         if(exp>maxterm2)
             maxterm2 = exp;
     }
-  //  printf("%d\n",maxterm1+maxterm2);
     for(int i=0;i<=maxterm1;i++)
-    {
         for(int j=0;j<=maxterm2;j++)
-        {
             poly3[i+j]+= poly1[i]*poly2[j];
-        }
-    }
     for(int i=0;i<=maxterm1+maxterm2;i++)
     {
         if(poly3[i]!=0)

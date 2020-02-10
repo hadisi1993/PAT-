@@ -11,86 +11,56 @@
 #include<iostream>
 #include<algorithm>
 using namespace std;
-const int Max =1e6;
+const int INF =1e6;
 int maxrescueman[600];   //各个城市的最多救援人数
 int rescue[600];    //各个城市的救援人数
 int Distance[600]; //最短路的距离
 int path[600];     //救援路线的数目
 int vis[600];     //是否被选择
 int edge[600][600];  // 距离矩阵
+int n,m,s,e,S,E;
 int main()
 {
-    int n,m,c1,c2;
-    scanf("%d %d %d %d",&n,&m,&c1,&c2);
-    path[c1]=1;       //到自己的点
+    scanf("%d %d %d %d",&n,&m,&S,&E);
     for(int i=0;i<n;i++)
     {
         scanf("%d",&rescue[i]);
     }
-    maxrescueman[c1]=rescue[c1];
+    fill(Distance,Distance+n,INF);
+    Distance[S]=0;
+    path[S]=1;       //到自己的点
+    maxrescueman[S]=rescue[S];
     for(int i=0;i<m;i++)
     {
-        int s,e,v; //起始节点，终止节点和值
-        scanf("%d %d %d",&s,&e,&v);
-        if(s==c1)
-        {
-            Distance[e]=v;
-            path[e]=1;
-            maxrescueman[e]=maxrescueman[s]+rescue[e];
-        }
-
-        if(e==c1)
-        {
-            Distance[s]=v;
-            path[s]=1;
-            maxrescueman[s]=maxrescueman[e]+rescue[s];
-        }
-        edge[s][e] = v;
-        edge[e][s] = v;
+        scanf("%d %d",&s,&e);
+        scanf("%d",&edge[s][e]);
+        edge[e][s] = edge[s][e];            //对称矩阵
     }
-    vis[c1]=1;   //自己所在节点被选择
-    for(int i=0;i<n-1;i++)   // 进行n-1次选择
+    for(int i=0;i<n;i++)   // 连起点进行n次循环,这样起点就不用做特殊处理了
     {
-        if(vis[c2])
-            break;    //若c2已经被计算，则停止计算
-        int k;        //k为待选择的节点
-        int minDistance = Max;
+        int k=-1,minDistance = INF;        //k为待选择的节点，并设置最短距离;
         for(int j=0;j<n;j++)
         {
-            if(!vis[j])    //遍历没有被选择的节点
+            if(!vis[j]&&Distance[j]<minDistance)
             {
-                if(Distance[j]!=0&&Distance[j]<minDistance)
-                {
-                    minDistance = Distance[j];
-                    k = j;
-                }
+                minDistance = Distance[j];
+                k = j;
             }
         }
-//        printf("第%d次选择:%d\n",i,k);
-//        printf("更新后节点信息\n");
-//        for(int j=0;j<n;j++)
-//            printf("%d ",Distance[j]);
-//        printf("\n");
+       // printf("%d",k);
+        if(k==-1) break;  // 没有新的联通节点了
         vis[k]=1;   //选择新节点
-        if(k==c2)
-            break;
         for(int j=0;j<n;j++)    //更新节点距离
         {
-            if(!vis[j])
+            if(!vis[j]&&edge[j][k])
             {
-                if(!Distance[j]&&edge[j][k]>0)                  //新的联通的节点
-                {
-                    Distance[j]=Distance[k]+edge[j][k];
-                    path[j]=path[k];
-                    maxrescueman[j]=maxrescueman[k]+rescue[j];
-                }
-                else if(Distance[j]>0&&edge[j][k]&&edge[j][k]+Distance[k]<Distance[j])
+                if(edge[j][k]+Distance[k]<Distance[j])
                 {
                     Distance[j]=edge[j][k]+Distance[k];            //发现新的路线
                     path[j]=path[k];
                     maxrescueman[j]=maxrescueman[k]+rescue[j];
                 }
-                else if(Distance[j]>0&&edge[j][k]&&edge[j][k]+Distance[k]==Distance[j])
+                else if(edge[j][k]+Distance[k]==Distance[j])
                 {
                     path[j]+=path[k];                                     //其他新的路线被发现
                     if(maxrescueman[k]+rescue[j]>maxrescueman[j])
@@ -99,6 +69,6 @@ int main()
             }
         }
     }
-    printf("%d %d\n",path[c2],maxrescueman[c2]);
+    printf("%d %d\n",path[E],maxrescueman[E]);
     return 0;
 }
