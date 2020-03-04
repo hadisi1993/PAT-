@@ -7,7 +7,7 @@ int digit;
 bool ispali(LL n,LL b)
 {
     int i;
-    for(i=0;n>0;i++,n/=b)
+    for(i=0;n>0;i++,n/=b)    //因为是判断回文，所以正着来反着来都可以
     {
         num[i] = n%b;
     }
@@ -23,10 +23,7 @@ int main()
 {
     LL n,b;
     cin>>n>>b;
-    if(ispali(n,b))
-        cout<<"Yes"<<endl;
-    else
-        cout<<"No"<<endl;
+    cout<<(ispail(n,b)?"Yes":"No")<<endl;
     cout<<num[digit];
     for(int i=digit-1;i>=0;i--)
         cout<<" "<<num[i];

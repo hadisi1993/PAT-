@@ -14,7 +14,7 @@ struct Windows{
   int remaintime=0;   //设开始的等候时间为0
 }wd[25];
 int tf[1005];      //个人交易所花时间
-int ctd[1005];    //每个人办理完业务的时间，用分钟记
+int ctd[1005];    //每个人办理完业务的时间，用秒钟记
 int cutime=1;
 int main()
 {
@@ -65,7 +65,6 @@ int main()
                     }
                     else
                         wd[j].remaintime = 0;
-
                 }
             }
         }

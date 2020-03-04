@@ -22,12 +22,10 @@ void DFS(int u)
 }
 void DFSTrave()
 {
-   // cout<<ocp<<endl;
     for(int i=1;i<=n;i++)
     {
         if(!vis[i]&&i!=ocp)
         {
-           // cout<<"访问第"<<i<<"个节点"<<endl;
             cnt++;
             DFS(i);
         }
